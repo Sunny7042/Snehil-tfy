@@ -3,23 +3,24 @@ import os
 
 app = Flask(__name__)
 
-# READ SECRET FROM MOUNTED FILE
-secret_file = "/var/secrets/snehil-serv/password"
+SECRET_PATH = "/var/secrets/snehil-serv/password"
+
 secret_value = "SECRET_NOT_FOUND"
 
-if os.path.exists(secret_file):
-    with open(secret_file, "r") as f:
+if os.path.exists(SECRET_PATH):
+    with open(SECRET_PATH, "r") as f:
         secret_value = f.read().strip()
 
-# PRINT SECRET TO LOGS
+# PRINT SECRET IN LOGS
 print(f"[SECRET] {secret_value}")
 
 @app.route("/")
 def index():
-    return f"Hello! Secret logged successfully."
+    return "Service started. Check logs for secret value."
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
+
 
 
 
