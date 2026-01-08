@@ -3,21 +3,20 @@ import os
 
 app = Flask(__name__)
 
-# Fetching from the Environment Variable defined in your YAML
-# The key 'SNEHIL_SERV' must match the key in your YAML 'env' section
+# Use os.environ.get to read the secret you defined in your YAML
 secret_value = os.environ.get("SNEHIL_SERV")
 
 if secret_value:
+    # This will print to your TrueFoundry logs
     print(f"[SECRET] Found in environment: {secret_value}")
 else:
-    print("[SECRET] Not found in environment variables.")
+    print("[SECRET] Variable SNEHIL_SERV not found in environment")
 
 @app.route("/")
 def index():
     if secret_value:
-        return f"Secret found! Check your logs to see the value."
-    return "Secret not found in environment."
+        return "Secret is loaded! Check the Service Logs in TrueFoundry."
+    return "Secret missing! Check your YAML 'env' section."
 
 if __name__ == "__main__":
-    # Ensure port matches the port in your YAML (8080)
     app.run(host="0.0.0.0", port=8080)
