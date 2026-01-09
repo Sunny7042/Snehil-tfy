@@ -1,22 +1,20 @@
-from flask import Flask
 import os
+import time
 
-app = Flask(__name__)
-
+# Mounted secret path based on your YAML + UI
 SECRET_PATH = "/var/secrets/snehil-serv/password"
 
-@app.route("/")
-def index():
-    return "Service running - check logs for secret"
+# Default fallback
+MY_SECRET = "SECRET_NOT_FOUND"
 
+# Read secret from mounted file
 if os.path.exists(SECRET_PATH):
     with open(SECRET_PATH, "r") as f:
-        value = f.read().strip()
-    print(f"[SECRET] {value}")
-else:
-    print(f"[SECRET] File not found: {SECRET_PATH}")
+        MY_SECRET = f.read().strip()
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+# Print secret to logs (TrueFoundry captures stdout)
+print("Secret value:", MY_SECRET)
 
-
+# Keep container running so logs don’t exit immediately
+while True:
+    time.sleep(3600)
