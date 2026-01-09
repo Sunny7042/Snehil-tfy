@@ -3,14 +3,19 @@ import os
 
 FILE_PATH = "/mnt/data/sampleSnlVol"
 
+print("=== Volume Reader Started ===")
+
 if os.path.exists(FILE_PATH):
     with open(FILE_PATH, "r") as f:
-        print("Volume content:", f.read().strip())
+        content = f.read().strip()
+        print("Volume content:", content)
 else:
-    print("File not found in volume!")
+    print("File not found at:", FILE_PATH)
 
+# keep process alive so logs stay
 while True:
-    time.sleep(3600)  # keep pod alive for logs
+    time.sleep(3600)
+
 
 
 
