@@ -1,24 +1,19 @@
-import time
 import os
-import sys
+import time
 
-FILE_PATH = "/mnt/data/sample-snlvol"
+MOUNT = "/mnt/data"
 
-print("=== Volume Reader Started ===", flush=True)
-
-# small delay so log collector attaches
+print("Listing contents of /mnt/data:", flush=True)
 time.sleep(2)
 
-if os.path.exists(FILE_PATH):
-    with open(FILE_PATH, "r") as f:
-        content = f.read().strip()
-        print("Volume content:", content, flush=True)
-else:
-    print("File not found at:", FILE_PATH, flush=True)
+try:
+    print(os.listdir(MOUNT), flush=True)
+except Exception as e:
+    print("Error listing volume:", e, flush=True)
 
-# keep alive
 while True:
     time.sleep(3600)
+
 
 
 
