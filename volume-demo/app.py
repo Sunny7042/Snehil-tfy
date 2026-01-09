@@ -1,7 +1,7 @@
 import time
 import os
 
-FILE_PATH = "/mnt/data/sampleSnlVol"
+FILE_PATH = "/mnt/data/sample-snlvol"
 
 print("=== Volume Reader Started ===")
 
@@ -12,9 +12,9 @@ if os.path.exists(FILE_PATH):
 else:
     print("File not found at:", FILE_PATH)
 
-# keep process alive so logs stay
 while True:
     time.sleep(3600)
+
 
 
 
