@@ -1,19 +1,16 @@
 import time
 import os
 
-FILE_PATH = "/mnt/data/samplesInVol"
-
-print("🔍 Checking volume file...")
+FILE_PATH = "/mnt/data/sampleSnlVol"
 
 if os.path.exists(FILE_PATH):
     with open(FILE_PATH, "r") as f:
-        content = f.read().strip()
-        print("📦 Volume file content:", content)
+        print("Volume content:", f.read().strip())
 else:
-    print("❌ File not found at:", FILE_PATH)
+    print("File not found in volume!")
 
-# keep container alive
 while True:
-    time.sleep(3600)
+    time.sleep(3600)  # keep pod alive for logs
+
 
 
