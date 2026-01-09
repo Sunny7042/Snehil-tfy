@@ -1,20 +1,40 @@
 import os
 import time
+from fastapi import FastAPI
 
-# Mounted secret path based on your YAML + UI
+app = FastAPI()
+
+# Mounted secret file path based on your YAML + UI
 SECRET_PATH = "/var/secrets/snehil-serv/password"
-
-# Default fallback
-MY_SECRET = "SECRET_NOT_FOUND"
 
 # Read secret from mounted file
 if os.path.exists(SECRET_PATH):
     with open(SECRET_PATH, "r") as f:
         MY_SECRET = f.read().strip()
+else:
+    MY_SECRET = "SECRET_NOT_FOUND"
 
-# Print secret to logs (TrueFoundry captures stdout)
-print("Secret value:", MY_SECRET)
+# MODE logic same as colleague
+MODE = os.getenv("MODE", "print-secret")
 
-# Keep container running so logs don’t exit immediately
-while True:
+# Service 1 — Print Secret
+if MODE == "print-secret":
+    print("Secret value:", MY_SECRET)
     time.sleep(3600)
+
+# Service 4 — HTTP Endpoint (optional)
+elif MODE == "helloworld":
+    print("Secret value on startup:", MY_SECRET)
+
+    @app.get("/")
+    def hello():
+        return {"message": "Hello World"}
+
+    @app.get("/secret")
+    def get_secret():
+        return {"secret": MY_SECRET}
+
+else:
+    print(f"Unknown MODE: {MODE}")
+    time.sleep(3600)
+
