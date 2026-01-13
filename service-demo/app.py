@@ -18,5 +18,5 @@ except Exception as e:
 
 @app.get("/")
 def hello():
-    return {"message": "Hello World"}
+    return {"message": "Service running successfully"}
 
