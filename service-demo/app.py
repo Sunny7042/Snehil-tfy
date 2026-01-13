@@ -1,35 +1,22 @@
-import os
 from fastapi import FastAPI
+import os
 
 app = FastAPI()
 
-# --- SECRET ---
-MY_SECRET = os.getenv("MY_SECRET", "SECRET_NOT_FOUND")
-
-# --- VOLUME ---
+SECRET = os.getenv("MY_SECRET", "SECRET_NOT_FOUND")
 VOLUME_PATH = "/mnt/data"
-TEST_FILE = f"{VOLUME_PATH}/sample-snlvol"   # your actual file name
 
-print("=== SECRET PROOF ===")
-print("Secret value:", MY_SECRET)
+print("==== SERVICE STARTED ====")
+print("Secret:", SECRET)
 
-print("=== VOLUME PROOF ===")
+print("Volume listing:")
 try:
-    files = os.listdir(VOLUME_PATH)
-    print("Volume files:", files)
-    if TEST_FILE in [f"{VOLUME_PATH}/{f}" for f in files]:
-        with open(TEST_FILE) as f:
-            print("File content:", f.read().strip())
-    else:
-        print("Expected file not found in volume")
+    print(os.listdir(VOLUME_PATH))
 except Exception as e:
-    print("Volume error:", e)
+    print("Volume read error:", e)
 
-# --- HTTP ENDPOINT ---
+
 @app.get("/")
 def hello():
-    return {"message": "Hello World!"}
+    return {"message": "Hello World"}
 
-@app.get("/secret")
-def read_secret():
-    return {"secret": MY_SECRET}
